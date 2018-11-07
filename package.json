@@ -1,0 +1,19 @@
+{
+  "name": "khalics-back",
+  "version": "1.0.0",
+  "description": "intelligent calisthenics app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rporcon/khalics-back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rporcon/khalics-back/issues"
+  },
+  "homepage": "https://github.com/rporcon/khalics-back#readme"
+}
