@@ -22,7 +22,7 @@ provider:
   runtime: nodejs8.10
 # you can overwrite defaults here
 #  stage: dev
-  region: eu-west-3
+  region: eu-west-1
   environment:
     GOOGLE_MAPS_API_KEY: key1234 # test global env
 
