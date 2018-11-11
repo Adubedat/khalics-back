@@ -1,22 +1,10 @@
 module.exports = {
-	env: {
-		es6: true,
-		node: true
-	},
-	extends: ['eslint:recommended', 'plugin:prettier/recommended'],
-	parserOptions: {
-		ecmaVersion: 9,
-		sourceType: 'module',
-		ecmaFeatures: {}
-	},
-	plugins: ['prettier'],
-	rules: {
-		'prettier/prettier': 'error',
-		indent: ['error', 'tab'],
-		'linebreak-style': ['error', 'unix'],
-		quotes: ['error', 'single'],
-		semi: ['error', 'always'],
-		'no-console': ['error', { allow: ['warn', 'error'] }],
-		'no-unused-vars': ["error", { "args": "none" }]
-	}
+	"extends": "airbnb",
+    "parser": "babel-eslint",
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true,
+      "mocha": true
+    }
 };

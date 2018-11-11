@@ -24,7 +24,9 @@ provider:
 #  stage: dev
   region: eu-west-1
   environment:
-    GOOGLE_MAPS_API_KEY: key1234 # test global env
+    dbHost: ${env:KHALICS_DB_HOST}
+    dbUser: ${env:KHALICS_DB_USER} # test global env
+    dbPassword: ${env:KHALICS_DB_PASSWORD}
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -56,17 +58,17 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
+  userCreate:
+    handler: handler.userCreate
     events:
      - http:
-         path: /
-         method: get
-  imageResize:
-    handler: handler.imageResize
+         path: /user/create
+         method: post
+  test:
+    handler: handler.test
     events:
      - http:
-         path: /imageResize
+         path: /test
          method: post
     environment:
       TEST_API_KEY: key4242
