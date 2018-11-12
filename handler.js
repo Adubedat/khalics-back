@@ -1,6 +1,7 @@
 // mysql promise
 const mysql = require('mysql');
 
+// TODO: make a file with db conncetion
 const connection = mysql.createConnection({
   host: process.env.dbHost,
   user: process.env.dbUser,
@@ -11,7 +12,9 @@ const connection = mysql.createConnection({
 connection.connect();
 
 module.exports.userCreate = (event, context, callback) => { // eslint-disable-line
+  // TODO: verify JSON.parse return
   const body = JSON.parse(event.body);
+  // TODO: verify fields
   const { pseudo, password, email } = { ...body };
   const createUserQuery = `INSERT INTO users (pseudo, password, email) VALUES ("${pseudo}", "${password}", "${email}")`;
   connection.query(createUserQuery, (error, results, fields) => { // eslint-disable-line

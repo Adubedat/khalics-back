@@ -1,4 +1,4 @@
-service: lambda-test # NOTE: update this with your service name
+service: khalics
 
 provider:
   name: aws
