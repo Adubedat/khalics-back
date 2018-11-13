@@ -1,8 +1,7 @@
 const db = require('../../lib/dbInit');
 
-module.exports.create = (event, context, callback) => { // eslint-disable-line
+module.exports.handler = (event, context, callback) => { // eslint-disable-line
   // TODO: verify JSON.parse return
-  console.log(event);
   const body = JSON.parse(event.body);
   // TODO: verify fields
   const { pseudo, password, email } = { ...body };
