@@ -1,7 +1,7 @@
 service: khalics
 
-custom:
-  env: ${file(../../${self:provider.stage}.env.json)}
+# custom:
+  # env: ${file(../../${self:provider.stage}.env.json)}
 
 provider:
   name: aws
@@ -15,13 +15,13 @@ provider:
   runtime: nodejs8.10
   stage: dev
   region: eu-west-1
-  environment:
-    dbHost: ${self:custom.env.DB_HOST}
-    dbUser: ${self:custom.env.DB_USER}
-    dbPassword: ${self:custom.env.DB_PASSWORD}
+  # environment:
+  #   dbHost: ${self:custom.env.DB_HOST}
+  #   dbUser: ${self:custom.env.DB_USER}
+  #   dbPassword: ${self:custom.env.DB_PASSWORD}
 
 functions:
-  userCreate:
+  create:
     handler: create.create
     events:
      - http:
