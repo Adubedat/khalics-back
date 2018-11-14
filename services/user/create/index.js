@@ -1,18 +1,34 @@
-const db = require('../../lib/dbInit');
+
+// const db = require('../../lib/dbInit');
+const uuid = require('uuid');
+const AWS = require('aws-sdk');
+
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  // TODO: verify JSON.parse return
+  // TODO: verify JSON.parse fields
   const body = JSON.parse(event.body);
-  // TODO: verify fields
-  const { pseudo, password, email } = { ...body };
-  // TODO: sql injection verif
-  const createUserQuery = `INSERT INTO users (pseudo, password, email) VALUES ("${pseudo}", "${password}", "${email}")`;
-  // const createUserQuery = 'INSERT INTO users (pseudo, password, email) VALUES ("qqq", "dddd", "sss")';
-  db.query(createUserQuery, (error, results, fields) => { // eslint-disable-line
-    db.end();
+  const timestamp = new Date().getTime();
+  const params = {
+    TableName: 'khalics',
+    Item: {
+      id: uuid.v1(),
+      pseudo: body.pseudo,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    },
+  };
+
+  dynamoDb.put(params, (error, result) => { // eslint-disable-line
     if (error) {
-      callback(error, { statusCode: 400 });
+      console.error(error);
+      callback(new Error('Couldn\'t create an user'));
     }
-    callback(null, { statusCode: 200 });
+
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify('test'),
+    };
+    callback(null, response);
   });
 };
