@@ -49,23 +49,21 @@ functions:
     package:
       include:
         - services/user/create/index.js
-        - services/user/node_modules/**
-        # - services/lib/node_modules/**
-        # - services/lib/dbInit.js
+        - services/user/create/node_modules/**
 
-resources:
-  Resources:
-    KhalicsDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1 # to change
-          WriteCapacityUnits: 1 # to change
-        TableName: 'khalics'
+# resources:
+#   Resources:
+#     KhalicsDynamoDbTable:
+#       Type: 'AWS::DynamoDB::Table'
+#       DeletionPolicy: Retain
+#       Properties:
+#         AttributeDefinitions:
+#           - AttributeName: id
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: id
+#             KeyType: HASH
+#         ProvisionedThroughput:
+#           ReadCapacityUnits: 1 # to change
+#           WriteCapacityUnits: 1 # to change
+#         TableName: 'khalics'

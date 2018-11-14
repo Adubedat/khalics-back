@@ -1,5 +1,4 @@
 
-// const db = require('../../lib/dbInit');
 const uuid = require('uuid');
 const AWS = require('aws-sdk');
 
