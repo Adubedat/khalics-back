@@ -53,7 +53,7 @@ functions:
 
 # resources:
 #   Resources:
-#     KhalicsDynamoDbTable:
+#     UsersDynamoDbTable:
 #       Type: 'AWS::DynamoDB::Table'
 #       DeletionPolicy: Retain
 #       Properties:
@@ -66,4 +66,4 @@ functions:
 #         ProvisionedThroughput:
 #           ReadCapacityUnits: 1 # to change
 #           WriteCapacityUnits: 1 # to change
-#         TableName: 'khalics'
+#         TableName: 'users'

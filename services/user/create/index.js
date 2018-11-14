@@ -1,4 +1,3 @@
-
 const uuid = require('uuid');
 const AWS = require('aws-sdk');
 
@@ -7,12 +6,16 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
   // TODO: verify JSON.parse fields
   const body = JSON.parse(event.body);
+  if (typeof body.pseudo !== 'string') {
+    callback(new Error('pseudo must be a string'));
+  }
+
   const timestamp = new Date().getTime();
   const params = {
     TableName: 'khalics',
     Item: {
       id: uuid.v1(),
-      pseudo: body.pseudo,
+      pseudo: 'testpseudo',
       createdAt: timestamp,
       updatedAt: timestamp,
     },
