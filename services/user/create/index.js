@@ -14,6 +14,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
       id: uuid.v1(),
       userName,
       email,
+      confirmed: false, // confirmed will be set to true in post confirmation trigger
       createdAt: timestamp,
       updatedAt: timestamp,
     },
