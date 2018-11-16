@@ -4,22 +4,25 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  const { username } = event;
-  const { email } = event.userAttributes;
+  console.log('------>', event);
+  const { userName } = event;
+  const { email } = event.request.userAttributes;
   const timestamp = new Date().getTime();
   const params = {
     TableName: 'khalics',
     Item: {
       id: uuid.v1(),
-      username,
+      userName,
       email,
       createdAt: timestamp,
       updatedAt: timestamp,
     },
   };
+  console.log('===>', params);
 
   dynamoDb.put(params, (error, result) => { // eslint-disable-line
     if (error) {
+      console.error('=============>', error);
       callback(new Error('Couldn\'t create an user'));
     }
     let response;
