@@ -4,18 +4,15 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  // TODO: verify JSON.parse fields
-  const body = JSON.parse(event.body);
-  if (typeof body.pseudo !== 'string') {
-    callback(new Error('pseudo must be a string'));
-  }
-
+  const { username } = event;
+  const { email } = event.userAttributes;
   const timestamp = new Date().getTime();
   const params = {
     TableName: 'khalics',
     Item: {
       id: uuid.v1(),
-      pseudo: 'testpseudo',
+      username,
+      email,
       createdAt: timestamp,
       updatedAt: timestamp,
     },
@@ -23,14 +20,14 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
 
   dynamoDb.put(params, (error, result) => { // eslint-disable-line
     if (error) {
-      console.error(error);
       callback(new Error('Couldn\'t create an user'));
     }
-
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify('test'),
-    };
+    let response;
+    if (event.triggerSource === 'PreSignUp_SignUp') {
+      response = event;
+    } else {
+      response = { statusCode: 200 };
+    }
     callback(null, response);
   });
 };
