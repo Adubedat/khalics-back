@@ -9,7 +9,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
   const { email } = event.request.userAttributes;
   const timestamp = new Date().getTime();
   const params = {
-    TableName: 'khalics',
+    TableName: 'users',
     Item: {
       id: uuid.v1(),
       userName,
