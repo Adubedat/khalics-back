@@ -22,7 +22,6 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
         callback(null, event);
       })
       .catch((error) => {
-        // console.error('cognitoIdp.listUsers error:', error);
         callback(error);
       });
   }
