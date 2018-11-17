@@ -1,7 +1,7 @@
 service: khalics
 
-custom:
-  env: ${file(./${self:provider.stage}.env.json)}
+# custom:
+  # env: ${file(./${self:provider.stage}.env.json)}
 
 package:
   individually: true
@@ -50,20 +50,3 @@ functions:
       include:
         - services/user/create/index.js
         - services/user/create/node_modules/**
-
-# resources:
-#   Resources:
-#     UsersDynamoDbTable:
-#       Type: 'AWS::DynamoDB::Table'
-#       DeletionPolicy: Retain
-#       Properties:
-#         AttributeDefinitions:
-#           - AttributeName: id
-#             AttributeType: S
-#         KeySchema:
-#           - AttributeName: id
-#             KeyType: HASH
-#         ProvisionedThroughput:
-#           ReadCapacityUnits: 1 # to change
-#           WriteCapacityUnits: 1 # to change
-#         TableName: 'users'
