@@ -39,14 +39,25 @@ provider:
   #   DB_PASSWORD: ${self:custom.env.DB_PASSWORD}
 
 functions:
-  create:
-    handler: services/user/create/index.handler
+  preSignupCognitoTrigger:
+    handler: services/user/preSignupCognitoTrigger/index.handler
     events:
      - http:
-         path: /user/create
+         path: /user/preSignupCognitoTrigger
          method: post
-         cors: true # try false
+         cors: true
     package:
       include:
-        - services/user/create/index.js
-        - services/user/create/node_modules/**
+        - services/user/preSignupCognitoTrigger/index.js
+        - services/user/preSignupCognitoTrigger/node_modules/**
+  postConfirmCognitoTrigger:
+    handler: services/user/preSignupCognitoTrigger/index.handler
+    events:
+     - http:
+         path: /user/preSignupCognitoTrigger
+         method: post
+         cors: true
+    package:
+      include:
+        - services/user/preSignupCognitoTrigger/index.js
+        - services/user/preSignupCognitoTrigger/node_modules/**
