@@ -32,8 +32,11 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-        # - cognito-idp:ListUsers
       Resource: "arn:aws:dynamodb:eu-west-1:*:*"
+    - Effect: Allow
+      Action:
+        - cognito-idp:ListUsers
+      Resource: "arn:aws:cognito-idp:eu-west-1:458723785925:userpool/eu-west-1_jrpxZzyiw"
   # environment:
   #   DB_HOST: ${self:custom.env.DB_HOST}
   #   DB_USER: ${self:custom.env.DB_USER}
