@@ -32,6 +32,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        # - cognito-idp:ListUsers
       Resource: "arn:aws:dynamodb:eu-west-1:*:*"
   # environment:
   #   DB_HOST: ${self:custom.env.DB_HOST}
@@ -51,13 +52,13 @@ functions:
         - services/user/preSignupCognitoTrigger/index.js
         - services/user/preSignupCognitoTrigger/node_modules/**
   postConfirmCognitoTrigger:
-    handler: services/user/preSignupCognitoTrigger/index.handler
+    handler: services/user/postConfirmCognitoTrigger/index.handler
     events:
      - http:
-         path: /user/preSignupCognitoTrigger
+         path: /user/postConfirmCognitoTrigger
          method: post
          cors: true
     package:
       include:
-        - services/user/preSignupCognitoTrigger/index.js
-        - services/user/preSignupCognitoTrigger/node_modules/**
+        - services/user/postConfirmCognitoTrigger/index.js
+        - services/user/postConfirmCognitoTrigger/node_modules/**
