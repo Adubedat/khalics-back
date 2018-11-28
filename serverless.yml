@@ -66,13 +66,13 @@ functions:
         - services/user/postConfirmCognitoTrigger/index.js
         - services/user/postConfirmCognitoTrigger/node_modules/**
   getWorkouts:
-  handler: services/user/workout/get/index.js
-  events:
-    - http:
-        path: /workout/get
-        method: post
-        cors: true
-  package:
-    include:
-      - services/workout/get/index.js
-      - services/workout/get/node_modules/**
+    handler: services/workout/get/index.handler
+    events:
+      - http:
+          path: /workout/get
+          method: get
+          cors: true
+    package:
+      include:
+        - services/workout/get/index.js
+        - services/workout/get/node_modules/**

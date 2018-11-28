@@ -1,28 +1,34 @@
 const AWS = require('aws-sdk');
-const uuidv4 = require('uuid/v4');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  const timestamp = new Date().getTime();
-  event = {};
-  console.log(event);
-  const params = {
+  callback(null, { event });
+  const { id } = event.queryStringParameters;
+  if (!id) {
+    callback(new Error('workout id inexistant'));
+  }
+  const dbParams = {
     TableName: 'workouts',
-    Item: {
-      _id: uuidv4(),
-      name: 'test1',
-      description: 'desc1',
-      createdAt: timestamp,
-      updatedAt: timestamp,
+    KeyConditionExpression: '#id = :id',
+    ExpressionAttributeNames: {
+      '#id': '_id',
+      '#name': 'name',
     },
+    ExpressionAttributeValues: {
+      ':id': id,
+    },
+    ProjectionExpression: '#name, description',
+    Limit: 1,
   };
-  dynamoDb.put(params, (error, result) => { // eslint-disable-line
-    if (error) {
-      console.error('dynamoDb put error', error);
-      callback(new Error('Couldn\'t create an user'));
+  dynamoDb.query(dbParams, (err, data) => {
+    if (err) {
+      callback(err);
+    } else {
+      if (data.count === 0) {
+        callback(new Error('inexistant workout'));
+      }
+      callback(null, { data });
     }
-    const response = { statusCode: 200 };
-    callback(null, { response, event });
   });
 };
