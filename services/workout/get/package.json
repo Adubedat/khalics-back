@@ -1,0 +1,7 @@
+{
+	"private": true,
+	"dependencies": {
+		"aws-sdk": "^2.358.0",
+		"uuid": "^3.3.2"
+	}
+}
