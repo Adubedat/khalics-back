@@ -3,11 +3,7 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  // const { id } = event.queryStringParameters;
-  const id = '42242';
-  if (!id) {
-    callback(new Error('workout id inexistant'));
-  }
+  const { id } = event.queryStringParameters;
   const dbParams = {
     TableName: 'workouts',
     KeyConditionExpression: '#id = :id',
