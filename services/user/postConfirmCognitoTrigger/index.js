@@ -15,6 +15,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
       updatedAt: timestamp,
     },
   };
+  // create user
   dynamoDb.put(params, (error, result) => { // eslint-disable-line
     if (error) {
       console.error('dynamoDb put error', error);

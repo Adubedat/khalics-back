@@ -54,6 +54,8 @@ functions:
   #     include:
   #       - services/user/preSignupCognitoTrigger/index.js
   #       - services/user/preSignupCognitoTrigger/node_modules/**
+  ##user##
+  # user create
   postConfirmCognitoTrigger:
     handler: services/user/postConfirmCognitoTrigger/index.handler
     events:
@@ -65,6 +67,18 @@ functions:
       include:
         - services/user/postConfirmCognitoTrigger/index.js
         - services/user/postConfirmCognitoTrigger/node_modules/**
+  get:
+    handler: services/user/get/index.handler
+    events:
+     - http:
+         path: /user/get
+         method: get
+         cors: true
+    package:
+      include:
+        - services/user/get/index.js
+        - services/user/get/node_modules/**
+  ##workout##
   getWorkouts:
     handler: services/workout/get/index.handler
     events:

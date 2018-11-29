@@ -3,18 +3,13 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  const { id } = event.queryStringParameters;
+  const { username } = event.queryStringParameters;
   const dbParams = {
-    TableName: 'workouts',
-    KeyConditionExpression: '#id = :id',
-    ExpressionAttributeNames: {
-      '#id': '_id',
-      '#name': 'name',
-    },
+    TableName: 'users',
+    KeyConditionExpression: 'username = :username',
     ExpressionAttributeValues: {
-      ':id': id,
+      ':id': username,
     },
-    ProjectionExpression: '#name, description',
     Limit: 1,
   };
   dynamoDb.query(dbParams, (err, data) => {
