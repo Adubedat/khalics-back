@@ -67,7 +67,7 @@ functions:
       include:
         - services/user/postConfirmCognitoTrigger/index.js
         - services/user/postConfirmCognitoTrigger/node_modules/**
-  get:
+  getUser:
     handler: services/user/get/index.handler
     events:
      - http:
@@ -78,8 +78,9 @@ functions:
       include:
         - services/user/get/index.js
         - services/user/get/node_modules/**
+
   ##workout##
-  getWorkouts:
+  getWorkout:
     handler: services/workout/get/index.handler
     events:
       - http:

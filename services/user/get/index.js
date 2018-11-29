@@ -8,7 +8,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
     TableName: 'users',
     KeyConditionExpression: 'username = :username',
     ExpressionAttributeValues: {
-      ':id': username,
+      ':username': username,
     },
     Limit: 1,
   };
