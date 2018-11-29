@@ -3,7 +3,8 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  const { id } = event.queryStringParameters;
+  // const { id } = event.queryStringParameters;
+  const id = '42242';
   if (!id) {
     callback(new Error('workout id inexistant'));
   }
@@ -24,10 +25,14 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
     if (err) {
       callback(err);
     } else {
-      if (data.count === 0) {
+      if (data.Count === 0) {
         callback(new Error('inexistant workout'));
       }
-      callback(null, { body: JSON.stringify({ data }) });
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify({ data }),
+      };
+      callback(null, response);
     }
   });
 };
