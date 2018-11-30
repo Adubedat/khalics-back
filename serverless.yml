@@ -12,13 +12,6 @@ package:
 
 provider:
   name: aws
-  # vpc:
-  #   securityGroupIds:
-  #     - sg-09637a881a2425673
-  #   subnetIds:
-  #     - subnet-62ed8d2a
-  #     - subnet-2d1bc977
-  #     - subnet-e1ef7f87
   runtime: nodejs8.10
   stage: dev
   region: eu-west-1
@@ -37,23 +30,8 @@ provider:
       Action:
         - cognito-idp:ListUsers
       Resource: "arn:aws:cognito-idp:eu-west-1:458723785925:userpool/eu-west-1_jrpxZzyiw"
-  # environment:
-  #   DB_HOST: ${self:custom.env.DB_HOST}
-  #   DB_USER: ${self:custom.env.DB_USER}
-  #   DB_PASSWORD: ${self:custom.env.DB_PASSWORD}
 
 functions:
-  # preSignupCognitoTrigger:
-  #   handler: services/user/preSignupCognitoTrigger/index.handler
-  #   events:
-  #    - http:
-  #        path: /user/preSignupCognitoTrigger
-  #        method: post
-  #        cors: true
-  #   package:
-  #     include:
-  #       - services/user/preSignupCognitoTrigger/index.js
-  #       - services/user/preSignupCognitoTrigger/node_modules/**
   ##user##
   # user create
   postConfirmCognitoTrigger:
