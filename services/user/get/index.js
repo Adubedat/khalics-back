@@ -3,24 +3,26 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  const { username } = event.queryStringParameters;
+  let { usernames } = event.queryStringParameters;
+
+  usernames = JSON.parse(usernames);
+  const promises = [];
   const dbParams = {
     TableName: 'users',
     KeyConditionExpression: 'username = :username',
-    ExpressionAttributeValues: {
-      ':username': username,
-    },
     Limit: 1,
   };
-  dynamoDb.query(dbParams, (err, data) => {
-    if (err) {
-      callback(err);
-    } else {
-      const response = {
-        statusCode: 200,
-        body: JSON.stringify({ data }),
-      };
-      callback(null, response);
-    }
+  for (let i = 0; i < usernames.length; i += 1) {
+    dbParams.ExpressionAttributeValues = { ':username': usernames[i] };
+    promises.push(dynamoDb.query(dbParams).promise());
+  }
+  Promise.all(promises).then((data) => {
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify({ data }),
+    };
+    callback(null, response);
+  }).catch((err) => {
+    callback(err);
   });
 };
