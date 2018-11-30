@@ -21,6 +21,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
     promises.push(dynamoDb.query(dbParams).promise());
   }
   Promise.all(promises).then((data) => {
+    // TODO: excluse _id field
     const workouts = data.map((val => val.Items[0]));
     const response = {
       statusCode: 200,
