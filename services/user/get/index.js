@@ -5,6 +5,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
   let { usernames } = event.queryStringParameters;
 
+  // verify params ?
   usernames = JSON.parse(usernames);
   const promises = [];
   const dbParams = {
@@ -17,9 +18,10 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
     promises.push(dynamoDb.query(dbParams).promise());
   }
   Promise.all(promises).then((data) => {
+    const users = data.map((val => val.Items[0]));
     const response = {
       statusCode: 200,
-      body: JSON.stringify({ data }),
+      body: JSON.stringify({ users }),
     };
     callback(null, response);
   }).catch((err) => {
