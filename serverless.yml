@@ -30,6 +30,8 @@ provider:
       Action:
         - cognito-idp:ListUsers
       Resource: "arn:aws:cognito-idp:eu-west-1:458723785925:userpool/eu-west-1_jrpxZzyiw"
+plugins:
+  - serverless-offline
 
 functions:
   ##user##

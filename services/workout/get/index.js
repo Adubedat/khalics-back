@@ -3,8 +3,9 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  const { ids } = event.queryStringParameters;
+  let { ids } = event.queryStringParameters;
 
+  ids = JSON.parse(ids);
   const promises = [];
   const dbParams = {
     TableName: 'workouts',
