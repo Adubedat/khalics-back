@@ -5,7 +5,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
   let { ids } = event.queryStringParameters;
 
-  // verify params ? what happened if ids is INT
+  // verify params ? (length of idv4 + typeof string)
   ids = JSON.parse(ids);
   const promises = [];
   const dbParams = {

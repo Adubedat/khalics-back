@@ -5,7 +5,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
   let { usernames } = event.queryStringParameters;
 
-  // verify params ?
+  // verify params ? username is taken from JWTtoken ?
   usernames = JSON.parse(usernames);
   const promises = [];
   const dbParams = {
