@@ -6,6 +6,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
   const { email } = event.request.userAttributes;
   const { userName } = event;
   const timestamp = new Date().getTime();
+  // TODO: fields check
   const params = {
     TableName: 'users',
     Item: {
