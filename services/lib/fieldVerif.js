@@ -23,6 +23,7 @@ module.exports.isObject = (array) => {
   return isObj;
 };
 
+// param is array of array of object
 module.exports.isArrayOfObject = (array) => {
   if (!Array.isArray(array) || array.length === 0) {
     return false;
