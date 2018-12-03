@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const uuidv4 = require('uuid/v4');
+const { isString, isNumber } = require('../../lib/fieldVerif');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -8,17 +9,20 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
   const {
     description, name, exercises, restTime, set, round, reps,
   } = body;
-  // const isString = [description, name, exercises.exerciseId, reps.name].every(val => typeof val === 'string');
+  // if (!isString([description, name, exercises.exerciseId, reps.name]))
   // const isNumber = [restTime, name].every(val => typeof val === 'number');
+  if (!isString([description, name])) {
+    console.error('notString');
+  }
 
   const timestamp = new Date().getTime();
-  console.log(description, typeof description, 'uuid', typeof uuidv4());
+  console.log(description, typeof description);
   const params = {
     TableName: 'workouts',
     Item: {
-      _id: { S: 'test' },
-      description: { S: description },
-      // name,
+      _id: uuidv4(),
+      description,
+      name,
       // exercises,
       // restTime,
       // set,
