@@ -45,6 +45,7 @@ functions:
          cors: true
     package:
       include:
+        - services/lib/fieldVerif.js
         - services/user/postConfirmCognitoTrigger/index.js
         - services/user/postConfirmCognitoTrigger/node_modules/**
 
