@@ -4,21 +4,13 @@ const { isString, isNumber, isArrayOfObject } = require('../../lib/fieldVerif');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  const body = JSON.parse(event.body);
-  const {
-    description, name, exercises, restTime, set, round, reps,
-  } = body;
-  console.log('body:', body);
-  // maybe error in prod less explicit: incorrect format
+const errorCheck = (description, name, exercises, restTime, set, round, reps) => {
+  // maybe "incorrect format" error in prod
   let error;
   if (!isArrayOfObject([exercises, reps])) {
     error = Error('exercises, reps: must be an Array of Object');
   }
-  if (error) {
-    callback(error);
-    return;
-  }
+  if (error) { return error; }
   for (let i = 0; i < exercises.length; i += 1) {
     if (!isString([exercises[i].exerciseId])) {
       error = Error(`index ${i}: exercises.exerciseId must be a String`);
@@ -28,10 +20,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
       break;
     }
   }
-  if (error) {
-    callback(error);
-    return;
-  }
+  if (error) { return error; }
   for (let i = 0; i < reps.length; i += 1) {
     if (!isString([reps[i].name])) {
       error = Error(`index ${i}: reps.name must be a String`);
@@ -41,16 +30,24 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
       break;
     }
   }
-  if (error) {
-    callback(error);
-    return;
-  }
+  if (error) { return error; }
   if (!isString([description, name])) {
     error = Error('description, name, exercises.exerciseId, reps.name: must be a String');
   } else if (!isNumber([restTime, set, round])) {
     error = Error('exercises.repNb, restTime, set, round, reps.serieNb, reps.repsNb: must be a Number');
   }
-  if (error) {
+  if (error) { return error; }
+  return null;
+};
+
+module.exports.handler = (event, context, callback) => { // eslint-disable-line
+  const body = JSON.parse(event.body);
+  const {
+    description, name, exercises, restTime, set, round, reps,
+  } = body;
+  // maybe error in prod less explicit: incorrect format
+  const error = errorCheck(description, name, exercises, restTime, set, round, reps);
+  if (error !== null) {
     callback(error);
     return;
   }
@@ -69,12 +66,11 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
       reps,
       createdAt: timestamp,
       updatedAt: timestamp,
-      startedAt: null,
-      doneAt: null,
+      startedAt: 0,
+      doneAt: 0,
       done: false,
     },
   };
-  // create user
   dynamoDb.put(params, (error, result) => { // eslint-disable-line
     if (error) {
       callback(new Error('dynamoDb put error'));
