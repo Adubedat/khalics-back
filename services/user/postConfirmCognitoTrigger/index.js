@@ -20,6 +20,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
     if (error) {
       console.error('dynamoDb put error', error);
       callback(new Error('Couldn\'t create an user'));
+      return;
     }
     let response;
     if (event.triggerSource === 'PostConfirmation_ConfirmSignUp') {

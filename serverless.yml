@@ -47,6 +47,7 @@ functions:
       include:
         - services/user/postConfirmCognitoTrigger/index.js
         - services/user/postConfirmCognitoTrigger/node_modules/**
+
   getUser:
     handler: services/user/get/index.handler
     events:
@@ -71,3 +72,15 @@ functions:
       include:
         - services/workout/get/index.js
         - services/workout/get/node_modules/**
+
+  createWorkout:
+    handler: services/workout/create/index.handler
+    events:
+      - http:
+          path: /workout/create
+          method: post
+          cors: true
+    package:
+      include:
+        - services/workout/create/index.js
+        - services/workout/create/node_modules/**
