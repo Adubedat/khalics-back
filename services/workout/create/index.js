@@ -16,20 +16,20 @@ const errorCheck = (body) => {
   if (error) { return error; }
   for (let i = 0; i < exercises.length; i += 1) {
     if (!isString([exercises[i].exerciseId])) {
-      error = Error(`index ${i}: exercises.exerciseId must be a String`);
+      error = Error(`index ${i}: exercises.exerciseId: must be a String`);
       break;
     } else if (!isNumber([exercises[i].repNb])) {
-      error = Error(`index ${i}: exercises.repNb must be a Number`);
+      error = Error(`index ${i}: exercises.repNb: must be a Number`);
       break;
     }
   }
   if (error) { return error; }
   for (let i = 0; i < reps.length; i += 1) {
     if (!isString([reps[i].name])) {
-      error = Error(`index ${i}: reps.name must be a String`);
+      error = Error(`index ${i}: reps.name: must be a String`);
       break;
     } else if (!isNumber([reps[i].serieNb, reps[i].repNb])) {
-      error = Error(`index ${i}: reps.serieNb, reps.repNb must be a Number`);
+      error = Error(`index ${i}: reps.serieNb, reps.repNb: must be a Number`);
       break;
     }
   }
