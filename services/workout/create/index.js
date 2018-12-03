@@ -4,7 +4,10 @@ const { isString, isNumber, isArrayOfObject } = require('../../lib/fieldVerif');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-const errorCheck = (description, name, exercises, restTime, set, round, reps) => {
+const errorCheck = (body) => {
+  const {
+    description, name, exercises, restTime, set, round, reps,
+  } = body;
   // maybe "incorrect format" error in prod
   let error;
   if (!isArrayOfObject([exercises, reps])) {
@@ -45,8 +48,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
   const {
     description, name, exercises, restTime, set, round, reps,
   } = body;
-  // maybe error in prod less explicit: incorrect format
-  const error = errorCheck(description, name, exercises, restTime, set, round, reps);
+  const error = errorCheck(body);
   if (error !== null) {
     callback(error);
     return;
@@ -73,7 +75,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
   };
   dynamoDb.put(params, (error, result) => { // eslint-disable-line
     if (error) {
-      callback(new Error('dynamoDb put error'));
+      callback(error);
       return;
     }
     const response = { statusCode: 200 };

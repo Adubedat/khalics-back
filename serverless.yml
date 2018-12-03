@@ -82,5 +82,6 @@ functions:
           cors: true
     package:
       include:
+        - services/lib/fieldVerif.js
         - services/workout/create/index.js
         - services/workout/create/node_modules/**
