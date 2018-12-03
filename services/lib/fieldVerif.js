@@ -18,7 +18,20 @@ module.exports.isObject = (array) => {
   if (!Array.isArray(array) || array.length === 0) {
     return false;
   }
+  console.log('<', array);
   const isObj = array.every(val => Object.prototype.toString.call(val) === '[object Object]'
         || Object.keys(val).length > 0);
+  console.log('isObj', isObj);
   return isObj;
+};
+
+module.exports.isArrayOfObject = (array) => {
+  if (!Array.isArray(array) || array.length === 0) {
+    return false;
+  }
+
+  console.log(array);
+  const isArrayOfObj = array.every(val => module.exports.isObject(val));
+  console.log('-->', isArrayOfObj);
+  return isArrayOfObj;
 };

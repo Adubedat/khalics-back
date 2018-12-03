@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 const uuidv4 = require('uuid/v4');
-const { isString, isNumber, isObject } = require('../../lib/fieldVerif');
+const { isString, isNumber, isArrayOfObject } = require('../../lib/fieldVerif');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -9,14 +9,18 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
   const {
     description, name, exercises, restTime, set, round, reps,
   } = body;
-  if (!isObject([exercises, reps])
-      || !isString([description, name, exercises.exerciseId, reps.name])
-      || !isNumber([exercises.repNb, restTime, set, round, reps.serieNb, reps.repsNb])) {
-    console.error('notString');
+  // maybe error in prod less explicit: incorrect format
+  let error;
+  if (!isArrayOfObject([exercises, reps])) {
+    error = Error('exercises,reps: must be an Array of Object');
+  } else if (!isString([description, name, exercises.exerciseId, reps.name])) {
+    error = Error('description, name, exercises.exerciseId, reps.name: must be a String');
+  } else if (!isNumber([exercises.repNb, restTime, set, round, reps.serieNb, reps.repsNb])) {
+    error = Error('exercises.repNb, restTime, set, round, reps.serieNb, reps.repsNb: must be a Number');
   }
+  if (error) { callback(error); }
 
   const timestamp = new Date().getTime();
-  console.log(description, typeof description);
   const params = {
     TableName: 'workouts',
     Item: {
@@ -24,25 +28,23 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
       description,
       name,
       exercises,
-      // restTime,
-      // set,
-      // round,
-      // reps,
-      // createdAt: timestamp,
-      // updatedAt: timestamp,
-      // startedAt: null,
-      // doneAt: null,
-      // done: false,
+      restTime,
+      set,
+      round,
+      reps,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+      startedAt: null,
+      doneAt: null,
+      done: false,
     },
   };
   // create user
   dynamoDb.put(params, (error, result) => { // eslint-disable-line
     if (error) {
-      console.error('dynamoDb put error', error);
-      callback(new Error('Couldn\'t create an user'));
+      callback(new Error('dynamoDb put error'));
       return;
     }
-    console.log('test');
     const response = { statusCode: 200 };
     callback(null, response);
   });
