@@ -6,7 +6,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 const errorCheck = (body) => {
   const {
-    description, name, exercises, restTime, set, round,
+    description, name, exercises, restTime,
   } = body;
   let error;
   if (!isArrayOfObject([exercises])) {
@@ -14,19 +14,22 @@ const errorCheck = (body) => {
   }
   if (error) { return error; }
   for (let i = 0; i < exercises.length; i += 1) {
-    if (!isString([exercises[i].id])) {
+    const {
+      id, repBySet, totalSet, totalRound,
+    } = exercises[i];
+    if (!isString([id])) {
       error = Error(`index ${i}: exercises.id: must be a String`);
       break;
-    } else if (!isNumber([exercises[i].repNb])) {
-      error = Error(`index ${i}: exercises.repNb: must be a Number`);
+    } else if (!isNumber([repBySet, totalSet, totalRound])) {
+      error = Error(`index ${i}: exercises: repBySet, totalSet, totalRound must be a Number`);
       break;
     }
   }
   if (error) { return error; }
   if (!isString([description, name])) {
     error = Error('description, name: must be a String');
-  } else if (!isNumber([restTime, set, round])) {
-    error = Error('restTime, set, round: must be a Number');
+  } else if (!isNumber([restTime])) {
+    error = Error('restTime: must be a Number');
   }
   if (error) { return error; }
   return null;
@@ -35,7 +38,7 @@ const errorCheck = (body) => {
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
   const body = JSON.parse(event.body);
   const {
-    description, name, exercises, restTime, set, round,
+    description, name, exercises, restTime,
   } = body;
   const error = errorCheck(body);
   if (error !== null) {
@@ -52,8 +55,6 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
       name,
       exercises,
       restTime,
-      set,
-      round,
       createdAt: timestamp,
       updatedAt: timestamp,
       startedAt: 0,
