@@ -100,3 +100,16 @@ functions:
         - services/lib/fieldVerif.js
         - services/exercise/create/index.js
         - services/exercise/create/node_modules/**
+
+  getExercise:
+    handler: services/exercise/get/index.handler
+    events:
+      - http:
+          path: /exercise/get
+          method: get
+          cors: true
+    package:
+      include:
+        - services/lib/fieldVerif.js
+        - services/exercise/get/index.js
+        - services/exercise/get/node_modules/**
