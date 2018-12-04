@@ -3,25 +3,22 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  let { usernames } = event.queryStringParameters;
+  const { username } = event.queryStringParameters;
 
-  // verify params ? username is taken from JWTtoken ?
-  usernames = JSON.parse(usernames);
-  const promises = [];
+  // verify params ? username is taken from JWTtoken / Cognito ?
   const dbParams = {
     TableName: 'users',
     KeyConditionExpression: 'username = :username',
+    ExpressionAttributeValues: {
+      ':username': username,
+    },
     Limit: 1,
   };
-  for (let i = 0; i < usernames.length; i += 1) {
-    dbParams.ExpressionAttributeValues = { ':username': usernames[i] };
-    promises.push(dynamoDb.query(dbParams).promise());
-  }
-  Promise.all(promises).then((data) => {
-    const users = data.map((val => val.Items[0]));
+  dynamoDb.query(dbParams).promise().then((data) => {
+    const user = data.Items[0];
     const response = {
       statusCode: 200,
-      body: JSON.stringify({ users }),
+      body: JSON.stringify({ user }),
     };
     callback(null, response);
   }).catch((err) => {
