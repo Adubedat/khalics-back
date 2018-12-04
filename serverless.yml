@@ -86,3 +86,17 @@ functions:
         - services/lib/fieldVerif.js
         - services/workout/create/index.js
         - services/workout/create/node_modules/**
+
+  ##exercise##
+  createExercise:
+    handler: services/exercise/create/index.handler
+    events:
+      - http:
+          path: /exercise/create
+          method: post
+          cors: true
+    package:
+      include:
+        - services/lib/fieldVerif.js
+        - services/exercise/create/index.js
+        - services/exercise/create/node_modules/**
