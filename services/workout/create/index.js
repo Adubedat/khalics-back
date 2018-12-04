@@ -6,17 +6,16 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 const errorCheck = (body) => {
   const {
-    description, name, exercises, restTime, set, round, reps,
+    description, name, exercises, restTime, set, round, exercisesDone,
   } = body;
-  // maybe "incorrect format" error in prod
   let error;
-  if (!isArrayOfObject([exercises, reps])) {
-    error = Error('exercises, reps: must be an Array of Object');
+  if (!isArrayOfObject([exercises, exercisesDone])) {
+    error = Error('exercises, exercisesDone: must be an Array of Object');
   }
   if (error) { return error; }
   for (let i = 0; i < exercises.length; i += 1) {
-    if (!isString([exercises[i].exerciseId])) {
-      error = Error(`index ${i}: exercises.exerciseId: must be a String`);
+    if (!isString([exercises[i].id])) {
+      error = Error(`index ${i}: exercises.id: must be a String`);
       break;
     } else if (!isNumber([exercises[i].repNb])) {
       error = Error(`index ${i}: exercises.repNb: must be a Number`);
@@ -24,20 +23,20 @@ const errorCheck = (body) => {
     }
   }
   if (error) { return error; }
-  for (let i = 0; i < reps.length; i += 1) {
-    if (!isString([reps[i].name])) {
-      error = Error(`index ${i}: reps.name: must be a String`);
+  for (let i = 0; i < exercisesDone.length; i += 1) {
+    if (!isString([exercisesDone[i].id])) {
+      error = Error(`index ${i}: exercisesDone.id: must be a String`);
       break;
-    } else if (!isNumber([reps[i].serieNb, reps[i].repNb])) {
-      error = Error(`index ${i}: reps.serieNb, reps.repNb: must be a Number`);
+    } else if (!isNumber([exercisesDone[i].serieNb, exercisesDone[i].repNb])) {
+      error = Error(`index ${i}: exercisesDone.serieNb, exercisesDone.repNb: must be a Number`);
       break;
     }
   }
   if (error) { return error; }
   if (!isString([description, name])) {
-    error = Error('description, name, exercises.exerciseId, reps.name: must be a String');
+    error = Error('description, name: must be a String');
   } else if (!isNumber([restTime, set, round])) {
-    error = Error('exercises.repNb, restTime, set, round, reps.serieNb, reps.repsNb: must be a Number');
+    error = Error('restTime, set, round: must be a Number');
   }
   if (error) { return error; }
   return null;
@@ -46,7 +45,7 @@ const errorCheck = (body) => {
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
   const body = JSON.parse(event.body);
   const {
-    description, name, exercises, restTime, set, round, reps,
+    description, name, exercises, restTime, set, round, exercisesDone,
   } = body;
   const error = errorCheck(body);
   if (error !== null) {
@@ -65,7 +64,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
       restTime,
       set,
       round,
-      reps,
+      exercisesDone,
       createdAt: timestamp,
       updatedAt: timestamp,
       startedAt: 0,
