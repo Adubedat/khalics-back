@@ -3,10 +3,12 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
-  const { username } = event.queryStringParameters;
+  const idToken = event.headers.Authorization;
+  const jwtPayloadBase64 = idToken.split('.')[1];
+  const jwtPayload = Buffer.from(jwtPayloadBase64, 'base64').toString();
+  const jwtPayloadJSON = JSON.parse(jwtPayload);
+  const username = jwtPayloadJSON['cognito:username'];
 
-  console.log(event);
-  // verify params ? username is taken from JWTtoken / Cognito ?
   const dbParams = {
     TableName: 'users',
     KeyConditionExpression: 'username = :username',
