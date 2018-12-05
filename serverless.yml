@@ -56,6 +56,9 @@ functions:
          path: /user/get
          method: get
          cors: true
+         authorizer:
+           name: authorizerUserPool
+           arn: arn:aws:cognito-idp:eu-west-1:458723785925:userpool/eu-west-1_jrpxZzyiw
     package:
       include:
         - services/user/get/index.js
