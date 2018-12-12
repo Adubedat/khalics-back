@@ -3,6 +3,7 @@ module.exports.isString = (array) => {
     return false;
   }
   const isStr = array.every(val => typeof val === 'string');
+  console.log('isStr', isStr);
   return isStr;
 };
 
@@ -12,6 +13,14 @@ module.exports.isNumber = (array) => {
   }
   const isNum = array.every(val => typeof val === 'number');
   return isNum;
+};
+
+module.exports.isBoolean = (array) => {
+  if (!Array.isArray(array) || array.length === 0) {
+    return false;
+  }
+  const isBool = array.every(val => typeof val === 'boolean');
+  return isBool;
 };
 
 module.exports.isObject = (array) => {
