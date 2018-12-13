@@ -3,7 +3,6 @@ module.exports.isString = (array) => {
     return false;
   }
   const isStr = array.every(val => typeof val === 'string');
-  console.log('isStr', isStr);
   return isStr;
 };
 

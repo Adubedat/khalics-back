@@ -116,3 +116,17 @@ functions:
         - services/lib/fieldVerif.js
         - services/exercise/get/index.js
         - services/exercise/get/node_modules/**
+    
+  ##bug##
+  createBug:
+    handler: services/bug/create/index.handler
+    events:
+      - http:
+          path: /bug/create
+          method: post
+          cors: true
+    package:
+      include:
+        - services/lib/fieldVerif.js
+        - services/bug/create/index.js
+        - services/bug/create/node_modules/**

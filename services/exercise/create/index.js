@@ -6,7 +6,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 const errorCheck = (body) => {
   const {
-    description, name, difficultyNum, musclesInvolved, skills, isIsometric,
+    description, name, difficultyNum, musclesInvolved, skills, isIsometric, techniques,
   } = body;
   let error;
 
@@ -15,6 +15,8 @@ const errorCheck = (body) => {
     error = Error('description, name, difficultyStr: must be a String');
   } else if (!isString(musclesInvolved)) {
     error = Error('musclesInvolved: must be an array of String');
+  } else if (!isString(techniques)) {
+    error = Error('techniques: must be an array of String');
   } else if (!isBoolean([isIsometric])) {
     error = Error('isIsometric: must be an array of Boolean');
   } else if (!isNumber([difficultyNum])) {
@@ -27,7 +29,7 @@ const errorCheck = (body) => {
 module.exports.handler = (event, context, callback) => { // eslint-disable-line
   const body = JSON.parse(event.body);
   const {
-    description, name, difficultyNum, musclesInvolved, skills, isIsometric,
+    description, name, difficultyNum, musclesInvolved, skills, isIsometric, techniques,
   } = body;
   const error = errorCheck(body);
   if (error !== null) {
@@ -44,6 +46,7 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
       difficultyNum,
       isIsometric,
       musclesInvolved,
+      techniques,
       // skills,
     },
   };
