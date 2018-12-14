@@ -11,6 +11,8 @@ const errorCheck = (body) => {
   let error;
   if (!isString([summary, stepsToReproduce, expectedResult, actualResult, from])) {
     error = Error('summary, stepsToReproduce, expectedResult, actualResult, from : must be a String');
+  } else if (summary.length === 0) {
+    error = Error('summary cannot be empty');
   }
   if (error) { return error; }
   return null;
@@ -23,7 +25,6 @@ module.exports.handler = (event, context, callback) => { // eslint-disable-line
     callback(error);
     return;
   }
-  // TODO: summary required param
   const dbParam = {};
   ['summary', 'stepsToReproduce', 'expectedResult', 'actualResult', 'from'].forEach((val) => {
     if (body[val].length > 0) {
